@@ -1,14 +1,11 @@
 package retry
 
 import (
-	"context"
 	"math"
 	"time"
 )
 
 type DelayFunc func(attempt uint32) time.Duration
-
-type DelayFuncContext func(ctx context.Context, attempt uint) time.Duration
 
 func ConstDelay(delay time.Duration) DelayFunc {
 	return func(attempt uint32) time.Duration {
@@ -26,7 +23,7 @@ func ExponentialDelay(delay time.Duration, maxDelay time.Duration) DelayFunc {
 	if delay <= 0 {
 		return ConstDelay(delay)
 	}
-	if delay > maxDelay  {
+	if delay > maxDelay {
 		maxDelay = delay
 	}
 
